@@ -32,7 +32,7 @@ do
    violations=`echo "$line" | cut -d" " -f1`
    user=`echo "$line" | cut -d" " -f2`
    database=`echo "$line" | cut -d" " -f3`
-   if [[ "$violations" -ge 10 ]]
+   if [[ "$violations" -gt 10 ]]
    then
      echo "User $user violated $violations times to access the database $database" | mail -s "Violation" "$EMAIL_LIST"
    fi
