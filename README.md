@@ -19,6 +19,9 @@ Ways to capture the unauthorized users:
 			Example:
 				2022-11-23T16:35:20.393856Z 18332965 [Note] Access denied for user 'db_monitor'@'%' to database 'sys'
 
+
+For this task, let's focus on "A legit user tries to access a database on which he/she/app user doesn't have grants".  As mentioned above, we can capture the unauthorized users in three different logs namely General log, Error log, and Audit logs. 
+
 Option 1 (general log):
 When using the general log, it logs the access violations as shown below. 
 
