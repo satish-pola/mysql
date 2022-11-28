@@ -74,3 +74,14 @@ If the audit is in use, I would prefer JSON format as it is easy to parse the lo
 For both option 1 & 2, use parse_general_or_error_log.sh to capture the unauthorized users. 
 
 For option 3, use parse_audit.py. 
+
+Tested both the scripts on percona-server (8.0.29-21). If you are using other mysql flavors, make sure to change the awk column numbers in "parse_general_or_error_log.sh" to parse the log correctly. 
+
+Example log format in percona-server (8.0.29-21):
+
+2022-11-28T04:32:25.031306Z 9 [Note] [MY-010914] [Server] Access denied for user 'sample'@'%' to database 'sys'
+2022-11-28T04:32:47.202101Z 10 [Note] [MY-010926] [Server] Access denied for user 'sample1'@'localhost' (using password: YES)
+2022-11-28T04:36:36.085752Z 11 [Note] [MY-010914] [Server] Access denied for user 'test'@'%' to database 'sys'
+2022-11-28T04:51:31.464042Z 12 [Note] [MY-010914] [Server] Access denied for user 'test'@'%' to database 'sys'
+2022-11-28T05:18:02.339165Z 13 [Note] [MY-010914] [Server] Access denied for user 'test'@'%' to database 'sys'
+2022-11-28T05:18:11.324637Z 14 [Note] [MY-010914] [Server] Access denied for user 'test'@'%' to database 'performance_schema'
