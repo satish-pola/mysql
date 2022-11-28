@@ -34,5 +34,5 @@ user_list = parseJson(audit_log_loc)
 
 if __name__ == "__main__":
   for key,val in user_list.items():
-    if val >= 10:
+    if val > 10:
       sendEmail(key, val, email_list)
