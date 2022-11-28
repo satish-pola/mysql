@@ -67,5 +67,7 @@ If the audit is in use, I would prefer JSON format as it is easy to parse the lo
 
 	{"audit_record":{"name":"Init 	DB","record":"8_2022-11-23T03:47:29","timestamp":"2022-11-  23T03:55:11Z","command_class":"error","connection_id":"9","status":1044,"sqltext":"","user"	:"test[test] @ localhost []","host":"localhost","os_user":"","ip":"","db":""}}
 
+
 For both option 1 & 2, use parse_general_or_error_log.sh to capture the unauthorized users. 
+
 For option 3, use parse_audit.py. 
