@@ -3,6 +3,7 @@
 DATA CAPTURE:
 
 How do we capture the data?
+
       MySQL spits out an "Access denied" message, depending on the type of logging enabled, to error/general/audit log in a few different scenarios.  
 
 		a. Username exists in the MySQL instance, but the User/Client entered the wrong password. 
