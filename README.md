@@ -2,8 +2,6 @@
 
 DATA CAPTURE:
 
-How do we capture the data?
-
       MySQL spits out an "Access denied" message, depending on the type of logging enabled, to error/general/audit log in a few different scenarios.  
 
 		a. Username exists in the MySQL instance, but the User/Client entered the wrong password. 
@@ -21,3 +19,50 @@ How do we capture the data?
 			Example:
 				2022-11-23T16:35:20.393856Z 18332965 [Note] Access denied for user 'db_monitor'@'%' to database 'sys'
 
+Option 1 (general log):
+When using the general log, it logs the access violations as shown below. 
+
+	2022-11-23T03:22:42.692781Z        40 Init DB   Access denied for user 'test'@'%' to database 'sys'
+	2022-11-23T03:22:42.693183Z        40 Quit
+	2022-11-23T03:23:03.084212Z        41 Connect   test@localhost on  using Socket
+	
+	mysql> show variables like '%general%';
+	+------------------+-----------------------------------------------+
+	| Variable_name    | Value                                         |
+	+------------------+-----------------------------------------------+
+	| general_log      | OFF                                           |
+	| general_log_file | /ngs/app/iand/mysql_db/mysql/ma-iand-dn83.log |
+	+------------------+-----------------------------------------------+
+	2 rows in set (0.00 sec)
+
+
+Option 2 (Error log): 
+General log usually provides more information than the required. To capture the unauthorized users, we can enable error option with the combination of log_error_verbosity=3. 
+ 
+	mysql> show variables like '%log_error_verbosity%';
+	+---------------------+-------+
+	| Variable_name       | Value |
+	+---------------------+-------+
+	| log_error_verbosity | 2     |
+	+---------------------+-------+
+	1 row in set (0.01 sec)
+
+	mysql> set global log_error_verbosity=3;
+	Query OK, 0 rows affected (0.00 sec)
+
+	mysql> show variables like '%log_error%';
+	+----------------------------+----------------------------------------+
+	| Variable_name              | Value                                  |
+	+----------------------------+----------------------------------------+
+	| binlog_error_action        | ABORT_SERVER                           |
+	| log_error                  | ./Satishs-MBP-2.attlocal.net.err       |
+	| log_error_services         | log_filter_internal; log_sink_internal |
+	| log_error_suppression_list |                                        |
+	| log_error_verbosity        | 3                                      |
+	+----------------------------+----------------------------------------+
+	5 rows in set (0.01 sec)
+
+Option 3 (Audit log):
+If the audit is in use, I would prefer JSON format as it is easy to parse the log and find unauthorized users. 
+
+	{"audit_record":{"name":"Init 	DB","record":"8_2022-11-23T03:47:29","timestamp":"2022-11-  23T03:55:11Z","command_class":"error","connection_id":"9","status":1044,"sqltext":"","user"	:"test[test] @ localhost []","host":"localhost","os_user":"","ip":"","db":""}}
